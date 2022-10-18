@@ -1,0 +1,2 @@
+sacrebleu==1.2.10
+git+https://github.com/NVIDIA/dllogger@v0.1.0#egg=dllogger
