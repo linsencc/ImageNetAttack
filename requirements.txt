@@ -1,0 +1,8 @@
+numpy
+pandas
+Pillow
+torch==1.7.0
+torchaudio==0.7.0
+opencv-python
+traceback2
+warnings
