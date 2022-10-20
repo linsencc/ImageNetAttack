@@ -36,7 +36,7 @@ def get_tensor_image(img_file: str):
     pil_img = pil_img.resize((256, 256))
     tensor_image = transforms.ToTensor()(pil_img)
     tensor_image = tensor_image.unsqueeze(0)
-    return tensor_image
+    return tensor_image.to(device)
 
 
 def detect(tensor_image: torch.tensor):
@@ -98,12 +98,12 @@ def mnist_attack(param):
     predict, predict_distribution = detect(img_adv)
 
     # 对抗样本图片，PIL库直接转化会有损失，这里使用了cv2
-    np_adv_image = np.array(img_adv[0] * 255, dtype=np.int16)
+    np_adv_image = np.array(img_adv.detach().cpu().numpy()[0] * 255, dtype=np.int16)
     np_adv_image = np.transpose(np_adv_image, (1, 2, 0))
     np_adv_image = np_adv_image[:, :, ::-1]
 
     # 样本原图
-    np_ori_image = np.array(img_tensor.detach().numpy()[0] * 255, dtype=np.int16)
+    np_ori_image = np.array(img_tensor.detach().cpu().numpy()[0] * 255, dtype=np.int16)
     np_ori_image = np.transpose(np_ori_image, (1, 2, 0))
     np_ori_image = np_ori_image[:, :, ::-1]
 
