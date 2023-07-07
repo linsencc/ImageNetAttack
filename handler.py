@@ -32,7 +32,12 @@ Model.eval().to(device)
 
 
 def get_tensor_image(img_file: str):
-    pil_img = Image.open(img_file).convert('RGB')
+    pil_img = Image.open(img_file)
+    if pil_img.mode == 'RGBA':
+        background = Image.new('RGBA', pil_img.size, (255, 255, 255))
+        pil_img = Image.alpha_composite(background, pil_img).convert('RGB')
+    else:
+        pil_img = pil_img.convert('RGB')
     pil_img = pil_img.resize((256, 256))
     tensor_image = transforms.ToTensor()(pil_img)
     tensor_image = tensor_image.unsqueeze(0)
